@@ -1,0 +1,71 @@
+
+.container {
+    display: flex;
+    height: 100%;
+}
+
+.slider {
+    width:200px;
+    border-right: 1px solid #f2f2fe;
+    > div {
+        padding: 10px;
+        border-bottom: 1px solid #f2f2fe;
+        cursor: pointer;
+    }
+
+    .active {
+        background: #3399ff;
+        color: #FFF;
+    }
+}
+
+.content {
+    overflow: auto;
+    padding: 10px;
+    border: 1px solid #F2F2F2;
+    flex: 1;
+}
+
+.table-tree {
+	border-collapse:collapse;
+	
+	tbody tr:hover {
+		background-color: #efefef;		
+	}
+	td {
+		border-bottom:1px solid #F2F2F2;	
+	}
+}
+
+.dialog {
+    width: 150px;
+    height: 150px;
+    border: 1px solid #000;
+    text-align: center;
+    background: #efefef;
+}
+
+.trigger-container {
+    padding: 10px;
+    border: 1px solid #ccc;
+    background: #F2F2F2;
+}
+
+.t-btn {
+    display: inline-block;
+    padding: 5px;
+    margin: 5px;
+    border: 1px solid #000000;
+    outline: none;
+}
+
+.select {
+    display: inline-flex;
+    input {
+        flex: auto;
+    }
+    .arrow {
+        width: 20px;border: 1px solid #ccc;
+        cursor: pointer;
+    }
+}
