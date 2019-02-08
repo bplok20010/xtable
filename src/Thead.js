@@ -1,6 +1,8 @@
 import React from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
+import TableContext from './TableContext';
+import TheadRow from './TheadRow';
 
 export default class Thead extends React.Component {
     static propTypes = {
@@ -10,6 +12,8 @@ export default class Thead extends React.Component {
     static defaultProps = {
         columns: [],
     }
+
+    static contextType = TableContext;
 
     renderColumn(column, i) {
         const { prefixCls } = this.props;
@@ -27,19 +31,25 @@ export default class Thead extends React.Component {
     }
 
     render() {
-        const { columns, prefixCls } = this.props;
+        const { prefixCls } = this.props;
+        const { columnStore } = this.context;
 
+        const rows = columnStore.groupHeaderData;
         const classes = cx({
             [`${prefixCls}-thead`]: true
         });
 
         return (
             <thead className={classes}>
-                <tr>
-                    {
-                        columns.map(this.renderColumn.bind(this))
-                    }
-                </tr>
+                {rows.map((row, index) => {
+                    return (
+                        <TheadRow
+                            key={index}
+                            row={row}
+                        />
+                    )
+                }
+                )}
             </thead>
         );
     }
