@@ -2,7 +2,6 @@ import React from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import TableContext from './TableContext';
-import TheadRow from './TheadRow';
 
 export default class Thead extends React.Component {
     static propTypes = {
@@ -15,24 +14,68 @@ export default class Thead extends React.Component {
 
     static contextType = TableContext;
 
-    renderColumn(column, i) {
-        const { prefixCls } = this.props;
+    renderCell(column, i) {
+        const { prefixCls, components } = this.context;
+        const TheadCellComponent = components.thead.cell;
+        const {
+            title,
+            className,
+            customHeaderCellProps,
+            rowSpan,
+            colSpan
+        } = column;
+
         const classes = cx({
-            [`${prefixCls}-cell`]: true
+            [className]: className,
+            [`${prefixCls}-column-leaf`]: column.leaf,
+            [`${prefixCls}-align-${column.align}`]: !!column.align,
+            [`${customHeaderCellProps.className}`]: customHeaderCellProps.className,
         });
 
+        if (customHeaderCellProps.rowSpan === 0 || customHeaderCellProps.colSpan === 0) {
+            return null;
+        }
+
+        const cellProps = {
+            rowSpan,
+            colSpan,
+            ...customHeaderCellProps,
+            className: classes,
+        }
+
         return (
-            <th key={i}>
-                <div className={classes}>
-                    {column.title}
-                </div>
-            </th>
+            <TheadCellComponent
+                cellProps={cellProps}
+                column={column}
+                key={column.id || column.dataIndex || i}
+            >
+                <div>{title}</div>
+            </TheadCellComponent>
+        );
+    }
+
+    renderRow(row, index) {
+        const { prefixCls, components } = this.context;
+        const TheadRowComponent = components.thead.row;
+        const rowProps = {
+            className: `${prefixCls}-thead-row`
+        };
+
+        return (
+            <TheadRowComponent
+                rowProps={rowProps}
+                key={index}
+                row={row}
+            >
+                {row.map(this.renderCell.bind(this))}
+            </TheadRowComponent>
         );
     }
 
     render() {
-        const { prefixCls } = this.props;
-        const { columnStore } = this.context;
+        const { prefixCls, columnStore, components } = this.context;
+
+        const TheadComponent = components.thead.wrapper;
 
         const rows = columnStore.groupHeaderData;
         const classes = cx({
@@ -40,17 +83,9 @@ export default class Thead extends React.Component {
         });
 
         return (
-            <thead className={classes}>
-                {rows.map((row, index) => {
-                    return (
-                        <TheadRow
-                            key={index}
-                            row={row}
-                        />
-                    )
-                }
-                )}
-            </thead>
+            <TheadComponent className={classes}>
+                {rows.map(this.renderRow.bind(this))}
+            </TheadComponent>
         );
     }
 

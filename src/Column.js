@@ -34,7 +34,6 @@ const ColumnDefaultProps = {
     rowSpan: 1,
     colSpan: 1,
     customHeaderCellProps: {},
-    customCellProps: {},
 };
 
 export default class Column {
@@ -43,16 +42,15 @@ export default class Column {
 
         Object.assign(this, ColumnDefaultProps, props);
 
+        if (props.renderHeader) {
+            this.title = props.renderHeader(this);
+        }
+
         if (props.getHeaderCellProps) {
             this.customHeaderCellProps = {
-                ...props.getHeaderCellProps(props)
+                ...props.getHeaderCellProps(this)
             }
         }
 
-        if (props.getCellProps) {
-            this.customCellProps = {
-                ...props.getCellProps(props)
-            }
-        }
     }
 }

@@ -3,18 +3,12 @@ import Table from '../../src';
 
 export default class DEMO extends Component {
 
-    getHeaderCellProps(column) {
-        if (column.dataIndex === 'age') {
+    getRowProps(data, index) {
+        if (index % 2) {
             return {
-                colSpan: 0
+                className: 'odd'
             }
         }
-        if (column.dataIndex === 'gender') {
-            return {
-                colSpan: 2
-            }
-        }
-
     }
 
     render() {
@@ -24,8 +18,26 @@ export default class DEMO extends Component {
             {
                 title: '基础信息',
                 children: [
-                    { title: '年龄', dataIndex: 'age', align: 'right' },
-                    { title: '性别', dataIndex: 'gender', align: 'center' },
+                    {
+                        title: '年龄',
+                        dataIndex: 'age',
+                        align: 'right',
+                        getHeaderCellProps() {
+                            return {
+                                colSpan: 0,
+                            };
+                        },
+                    },
+                    {
+                        title: '性别',
+                        dataIndex: 'gender',
+                        align: 'center',
+                        getHeaderCellProps() {
+                            return {
+                                colSpan: 2,
+                            };
+                        },
+                    },
                     { title: '电话号码', dataIndex: 'phone', align: 'right' },
                     { title: '地址', dataIndex: 'address' },
                 ]
@@ -53,7 +65,7 @@ export default class DEMO extends Component {
                 data={data}
                 style={{ width: '100%' }}
                 showHeader={true}
-                getHeaderCellProps={this.getHeaderCellProps}
+                getRowProps={this.getRowProps}
             />
         );
     }

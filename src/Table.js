@@ -1,24 +1,57 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
+import merge from 'lodash/merge';
 import TableContext from './TableContext';
 import ColumnManager from './ColumnManager';
 import ColGroup from './ColGroup';
 import Thead from './Thead';
 import Tbody from './Tbody';
+import TheadRow from './components/TheadRow';
+import TheadCell from './components/TheadCell';
+import TbodyRow from './components/TbodyRow';
+import TbodyCell from './components/TbodyCell';
+
+const defaultComponents = {
+    table: 'table',
+    thead: {
+        wrapper: 'thead',
+        row: TheadRow,
+        cell: TheadCell,
+    },
+    tbody: {
+        wrapper: 'tbody',
+        row: TbodyRow,
+        cell: TbodyCell,
+    },
+};
+
+export {
+    TableContext,
+    ColumnManager,
+    ColGroup,
+    Thead,
+    Tbody,
+    TheadRow,
+    TheadCell,
+    TbodyRow,
+    TbodyCell,
+}
 
 export default class Table extends React.Component {
     static propTypes = {
         prefixCls: PropTypes.string,
         className: PropTypes.string,
         style: PropTypes.object,
+        components: PropTypes.object,
         columns: PropTypes.array,
+        columnStore: PropTypes.object,
         data: PropTypes.array,
         tableLayout: PropTypes.oneOf(['fixed', 'auto']),
         rowKey: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
         rowClassName: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
         showHeader: PropTypes.bool,
-        getHeaderCellProps: PropTypes.func,
+        showBody: PropTypes.bool,
         getCellProps: PropTypes.func,
         getHeaderRowProps: PropTypes.func,
         getRowProps: PropTypes.func,
@@ -29,27 +62,15 @@ export default class Table extends React.Component {
         tableLayout: 'auto',
         className: '',
         style: {},
+        components: defaultComponents,
         /**
-         * @type {array<Object>}
-         * @property {string} id
-         * @property {string} dataIndex
-         * @property {string} title
-         * @property {string|number} width
-         * @property {string|number} minWidth
-         * @property {string|number} maxWidth
-         * @property {function} render
-         * @property {function} renderHeader
-         * @property {string|boolean} fixed 
-         * @property {string} align 
-         * @property {string} className 
+         * @param {array<Column>}
          */
         columns: [],
         data: [],
         rowClassName: '',
-        rowKey: 'id',
         showHeader: true,
-        getHeaderCellProps: () => ({}),
-        getCellProps: () => ({}),
+        showBody: true,
         getHeaderRowProps: () => ({}),
         getRowProps: () => ({}),
     }
@@ -60,6 +81,12 @@ export default class Table extends React.Component {
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.columnStore) {
+            return {
+                columnStore: nextProps.columnStore
+            }
+        }
+
         if (nextProps.columns !== prevState.columns) {
             return {
                 columns: nextProps.columns,
@@ -70,7 +97,8 @@ export default class Table extends React.Component {
 
     render() {
         const props = this.props;
-        const { prefixCls, tableLayout, className, style, showHeader } = this.props;
+        const { components, prefixCls, tableLayout,
+            className, style, showHeader, showBody } = this.props;
         const { columnStore } = this.state;
         const classes = cx({
             [prefixCls]: true,
@@ -78,12 +106,17 @@ export default class Table extends React.Component {
             [`${prefixCls}-layout-fixed`]: tableLayout === 'fixed'
         });
 
+        const newComponents = merge({}, components, defaultComponents);
+
+        const TableComponent = newComponents.table;
+
         return (
             <TableContext.Provider value={{
                 ...props,
-                columnStore: columnStore
+                columnStore: columnStore,
+                components: newComponents
             }}>
-                <table
+                <TableComponent
                     className={classes}
                     cellPadding={0}
                     cellSpacing={0}
@@ -96,8 +129,13 @@ export default class Table extends React.Component {
                             <Thead {...props} columnStore={columnStore} /> :
                             null
                     }
-                    <Tbody {...props} columnStore={columnStore} />
-                </table>
+                    {
+                        showBody ?
+                            <Tbody {...props} columnStore={columnStore} /> :
+                            null
+                    }
+
+                </TableComponent>
             </TableContext.Provider>
         );
     }

@@ -2,14 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TableContext from './TableContext';
 
-export default class Colgroup extends React.Component {
-
+export default class ColGroup extends React.Component {
     static contextType = TableContext;
-
 
     renderCol(column, i) {
         const style = {};
-        const customHeaderCellProps = column.customHeaderCellProps;
 
         if (column.width != null) {
             style.width = column.width;
@@ -23,12 +20,8 @@ export default class Colgroup extends React.Component {
             style.maxWidth = column.maxWidth;
         }
 
-        // if () {
-
-        // }
-
         return (
-            <col key={column.key} style={style} />
+            <col key={column.id || column.dataIndex || i} style={style} />
         );
     }
 

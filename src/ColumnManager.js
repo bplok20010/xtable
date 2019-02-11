@@ -16,7 +16,7 @@ export default class ColumnManager {
 
                 return new Column({
                     id: this._idx,
-                    ...node,
+                    ...node
                 });
             }
         });
