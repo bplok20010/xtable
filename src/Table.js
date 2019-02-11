@@ -52,13 +52,12 @@ export default class Table extends React.Component {
         rowClassName: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
         showHeader: PropTypes.bool,
         showBody: PropTypes.bool,
-        getCellProps: PropTypes.func,
         getHeaderRowProps: PropTypes.func,
         getRowProps: PropTypes.func,
     }
 
     static defaultProps = {
-        prefixCls: 'rw-table',
+        prefixCls: 'xtable',
         tableLayout: 'auto',
         className: '',
         style: {},
@@ -71,8 +70,8 @@ export default class Table extends React.Component {
         rowClassName: '',
         showHeader: true,
         showBody: true,
-        getHeaderRowProps: () => ({}),
-        getRowProps: () => ({}),
+        getHeaderRowProps: null,
+        getRowProps: null,
     }
 
     state = {

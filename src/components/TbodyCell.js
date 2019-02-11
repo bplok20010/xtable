@@ -9,7 +9,7 @@ export default class TbodyCell extends React.Component {
         column: PropTypes.object.isRequired,
         record: PropTypes.object.isRequired,
         index: PropTypes.number.isRequired,
-        cellProps: PropTypes.object,
+        cellProps: PropTypes.object.isRequired,
     }
 
     static defaultProps = {

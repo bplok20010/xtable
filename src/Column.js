@@ -43,7 +43,7 @@ export default class Column {
         Object.assign(this, ColumnDefaultProps, props);
 
         if (props.renderHeader) {
-            this.title = props.renderHeader(this);
+            this.title = props.renderHeader(this.title, this);
         }
 
         if (props.getHeaderCellProps) {

@@ -127,34 +127,5 @@ export default class Tbody extends React.Component {
         );
     }
 
-    // render2() {
-    //     const { data, prefixCls } = this.props;
-    //     const { rowKey, columnStore } = this.context;
-    //     const classes = cx({
-    //         [`${prefixCls}-tbody`]: true
-    //     });
-
-    //     const tableRows = data.map((record, index) => {
-    //         let rkey = rowKey == null ? index : record[rowKey];
-    //         if (typeof rowKey === 'function') {
-    //             rkey = rowKey(record);
-    //         }
-
-    //         return (
-    //             <TbodyRow
-    //                 key={rkey}
-    //                 rowKey={rkey}
-    //                 index={index}
-    //                 record={record}
-    //             />
-    //         )
-    //     });
-
-    //     return (
-    //         <tbody className={classes}>
-    //             {tableRows}
-    //         </tbody>
-    //     );
-    // }
 
 }

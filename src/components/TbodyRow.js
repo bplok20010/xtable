@@ -8,7 +8,7 @@ export default class TableRow extends React.Component {
         rowKey: PropTypes.any,
         record: PropTypes.object.isRequired,
         index: PropTypes.number.isRequired,
-        rowProps: PropTypes.object,
+        rowProps: PropTypes.object.isRequired,
     }
 
     static defaultProps = {

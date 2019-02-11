@@ -55,11 +55,17 @@ export default class Thead extends React.Component {
     }
 
     renderRow(row, index) {
-        const { prefixCls, components } = this.context;
+        const { prefixCls, components, getHeaderRowProps } = this.context;
         const TheadRowComponent = components.thead.row;
-        const rowProps = {
-            className: `${prefixCls}-thead-row`
-        };
+        let rowProps = {};
+
+        if (getHeaderRowProps) {
+            rowProps = {
+                ...getHeaderRowProps(row, index),
+            };
+        }
+
+        rowProps.className = cx(`${prefixCls}-thead-row`, rowProps.className);
 
         return (
             <TheadRowComponent

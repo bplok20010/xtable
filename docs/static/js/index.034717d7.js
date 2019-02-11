@@ -365,7 +365,27 @@ function (_Component) {
         }, {
           title: '电话号码',
           dataIndex: 'phone',
-          align: 'right'
+          align: 'right',
+          render: function render(text) {
+            return 'Tel:' + text;
+          },
+          renderHeader: function renderHeader(text) {
+            return 'Tel:' + text;
+          },
+          getCellProps: function getCellProps(data) {
+            return {
+              onClick: function onClick() {
+                alert(data['phone']);
+              }
+            };
+          },
+          getHeaderCellProps: function getHeaderCellProps(column) {
+            return {
+              onClick: function onClick() {
+                alert(column['dataIndex']);
+              }
+            };
+          }
         }, {
           title: '地址',
           dataIndex: 'address'
@@ -395,7 +415,8 @@ function (_Component) {
           width: '100%'
         },
         showHeader: true,
-        getRowProps: this.getRowProps
+        getRowProps: this.getRowProps,
+        getHeaderRowProps: this.getRowProps
       });
     }
   }]);
@@ -608,7 +629,7 @@ var Column = function Column(props) {
   (0, _assign.default)(this, ColumnDefaultProps, props);
 
   if (props.renderHeader) {
-    this.title = props.renderHeader(this);
+    this.title = props.renderHeader(this.title, this);
   }
 
   if (props.getHeaderCellProps) {
@@ -961,12 +982,11 @@ exports.default = Table;
   rowClassName: _propTypes.default.oneOfType([_propTypes.default.string, _propTypes.default.func]),
   showHeader: _propTypes.default.bool,
   showBody: _propTypes.default.bool,
-  getCellProps: _propTypes.default.func,
   getHeaderRowProps: _propTypes.default.func,
   getRowProps: _propTypes.default.func
 });
 (0, _defineProperty2.default)(Table, "defaultProps", {
-  prefixCls: 'rw-table',
+  prefixCls: 'xtable',
   tableLayout: 'auto',
   className: '',
   style: {},
@@ -980,12 +1000,8 @@ exports.default = Table;
   rowClassName: '',
   showHeader: true,
   showBody: true,
-  getHeaderRowProps: function getHeaderRowProps() {
-    return {};
-  },
-  getRowProps: function getRowProps() {
-    return {};
-  }
+  getHeaderRowProps: null,
+  getRowProps: null
 });
 
 /***/ }),
@@ -1170,33 +1186,7 @@ function (_React$Component) {
       return _react.default.createElement(TbodyWrapper, {
         className: classes
       }, tableRows);
-    } // render2() {
-    //     const { data, prefixCls } = this.props;
-    //     const { rowKey, columnStore } = this.context;
-    //     const classes = cx({
-    //         [`${prefixCls}-tbody`]: true
-    //     });
-    //     const tableRows = data.map((record, index) => {
-    //         let rkey = rowKey == null ? index : record[rowKey];
-    //         if (typeof rowKey === 'function') {
-    //             rkey = rowKey(record);
-    //         }
-    //         return (
-    //             <TbodyRow
-    //                 key={rkey}
-    //                 rowKey={rkey}
-    //                 index={index}
-    //                 record={record}
-    //             />
-    //         )
-    //     });
-    //     return (
-    //         <tbody className={classes}>
-    //             {tableRows}
-    //         </tbody>
-    //     );
-    // }
-
+    }
   }]);
   return Tbody;
 }(_react.default.Component);
@@ -1300,11 +1290,16 @@ function (_React$Component) {
     value: function renderRow(row, index) {
       var _this$context2 = this.context,
           prefixCls = _this$context2.prefixCls,
-          components = _this$context2.components;
+          components = _this$context2.components,
+          getHeaderRowProps = _this$context2.getHeaderRowProps;
       var TheadRowComponent = components.thead.row;
-      var rowProps = {
-        className: "".concat(prefixCls, "-thead-row")
-      };
+      var rowProps = {};
+
+      if (getHeaderRowProps) {
+        rowProps = (0, _objectSpread2.default)({}, getHeaderRowProps(row, index));
+      }
+
+      rowProps.className = (0, _classnames.default)("".concat(prefixCls, "-thead-row"), rowProps.className);
       return _react.default.createElement(TheadRowComponent, {
         rowProps: rowProps,
         key: index,
@@ -1403,7 +1398,7 @@ exports.default = TbodyCell;
   column: _propTypes.default.object.isRequired,
   record: _propTypes.default.object.isRequired,
   index: _propTypes.default.number.isRequired,
-  cellProps: _propTypes.default.object
+  cellProps: _propTypes.default.object.isRequired
 });
 (0, _defineProperty2.default)(TbodyCell, "defaultProps", {
   column: {},
@@ -1477,7 +1472,7 @@ exports.default = TableRow;
   rowKey: _propTypes.default.any,
   record: _propTypes.default.object.isRequired,
   index: _propTypes.default.number.isRequired,
-  rowProps: _propTypes.default.object
+  rowProps: _propTypes.default.object.isRequired
 });
 (0, _defineProperty2.default)(TableRow, "defaultProps", {
   rowProps: {},
@@ -1547,8 +1542,8 @@ function (_React$Component) {
 
 exports.default = TheadCell;
 (0, _defineProperty2.default)(TheadCell, "propTypes", {
-  column: _propTypes.default.object,
-  cellProps: _propTypes.default.object
+  column: _propTypes.default.object.isRequired,
+  cellProps: _propTypes.default.object.isRequired
 });
 (0, _defineProperty2.default)(TheadCell, "defaultProps", {
   cellProps: {}
@@ -1616,8 +1611,8 @@ function (_React$Component) {
 
 exports.default = TheadRow;
 (0, _defineProperty2.default)(TheadRow, "propTypes", {
-  rowProps: _propTypes.default.object,
-  row: _propTypes.default.array
+  rowProps: _propTypes.default.object.isRequired,
+  row: _propTypes.default.array.isRequired
 });
 (0, _defineProperty2.default)(TheadRow, "defaultProps", {
   rowProps: {},
@@ -1707,4 +1702,4 @@ module.exports = __webpack_require__(/*! D:\wamp\www\github-projects\xtable\exam
 /***/ })
 
 /******/ });
-//# sourceMappingURL=index.a3eea2f9.js.map
+//# sourceMappingURL=index.034717d7.js.map

@@ -4,8 +4,8 @@ import TableContext from '../TableContext';
 
 export default class TheadRow extends React.Component {
     static propTypes = {
-        rowProps: PropTypes.object,
-        row: PropTypes.array,
+        rowProps: PropTypes.object.isRequired,
+        row: PropTypes.array.isRequired,
     }
 
     static defaultProps = {

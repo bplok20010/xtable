@@ -1,19 +1,19 @@
 
-.rw-table {
+.xtable {
   table-layout: auto;
   text-align: left;
   border-style: solid;
   border-width: 1px 0 0 1px;
   border-color: #e8e8e8; }
-  .rw-table-layout-fixed {
+  .xtable-layout-fixed {
     table-layout: fixed; }
-  .rw-table-align-center {
+  .xtable-align-center {
     text-align: center; }
-  .rw-table-align-left {
+  .xtable-align-left {
     text-align: left; }
-  .rw-table-align-right {
+  .xtable-align-right {
     text-align: right; }
-  .rw-table .rw-table-thead > tr > th {
+  .xtable .xtable-thead > tr > th {
     padding: 4px 10px;
     background-color: #fafafa;
     border-color: #e8e8e8;
@@ -21,18 +21,18 @@
     border-width: 0 1px 1px 0;
     line-height: 28px;
     color: rgba(0, 0, 0, 0.85); }
-  .rw-table .rw-table-thead > tr > th > .rw-table-cell {
+  .xtable .xtable-thead > tr > th > .xtable-cell {
     overflow: hidden;
     white-space: nowrap;
     word-wrap: normal;
     -o-text-overflow: ellipsis;
        text-overflow: ellipsis;
     width: 100%; }
-  .rw-table .rw-table-tbody > tr > td {
+  .xtable .xtable-tbody > tr > td {
     padding: 4px 10px;
     border-color: #e8e8e8;
     border-style: solid;
     border-width: 0 1px 1px 0;
     line-height: 28px; }
-  .rw-table .rw-table-tbody > tr:hover > td {
+  .xtable .xtable-tbody > tr:hover > td {
     background-color: #e6f7ff; }

@@ -38,7 +38,31 @@ export default class DEMO extends Component {
                             };
                         },
                     },
-                    { title: '电话号码', dataIndex: 'phone', align: 'right' },
+                    {
+                        title: '电话号码',
+                        dataIndex: 'phone',
+                        align: 'right',
+                        render(text) {
+                            return 'Tel:' + text;
+                        },
+                        renderHeader(text) {
+                            return 'Tel:' + text;
+                        },
+                        getCellProps(data) {
+                            return {
+                                onClick() {
+                                    alert(data['phone'])
+                                }
+                            }
+                        },
+                        getHeaderCellProps(column) {
+                            return {
+                                onClick() {
+                                    alert(column['dataIndex'])
+                                }
+                            }
+                        }
+                    },
                     { title: '地址', dataIndex: 'address' },
                 ]
             },
@@ -66,6 +90,7 @@ export default class DEMO extends Component {
                 style={{ width: '100%' }}
                 showHeader={true}
                 getRowProps={this.getRowProps}
+                getHeaderRowProps={this.getRowProps}
             />
         );
     }
